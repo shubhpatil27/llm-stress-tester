@@ -4,20 +4,99 @@ A system to evaluate hallucinations, inconsistency, and evasion behavior in Larg
 
 ---
 
-## 🚀 What This Project Does
+## 🚀 What This Project Does 
 
-This system stress-tests an LLM (e.g., Llama3) by:
+Large Language Models (LLMs) like Llama3 often give answers that *sound correct* but may be:
 
-1. Generating domain-specific questions using another model (Mistral)
-2. Using RAG (Retrieval-Augmented Generation) as ground truth
-3. Asking the test model to answer without context
-4. Verifying answers using:
-   - RAG context (primary)
-   - Wikipedia (fallback for factual questions)
-5. Measuring:
-   - Hallucination (wrong facts)
-   - Inconsistency (different answers to same question)
-   - Evasion (model avoids answering)
+- ❌ Factually wrong (hallucination)
+- ⚠️ Inconsistent (different answers to same question)
+- 🚨 Evasive (avoid answering properly)
+
+This project automatically tests and detects these behaviors.
+
+---
+
+### 🔍 Example
+
+#### Step 1 — System reads knowledge (RAG)
+
+From dataset:
+
+```
+South Korea has one of the highest tertiary education rates globally.
+```
+
+---
+
+#### Step 2 — System generates a question
+
+```
+Which country has the highest tertiary education rate?
+```
+
+---
+
+#### Step 3 — Model answers (multiple variations)
+
+```
+Answer 1: South Korea
+Answer 2: Norway
+Answer 3: Canada
+```
+
+---
+
+#### Step 4 — System analyzes
+
+```
+Correct answer (from RAG): South Korea
+
+→ Answer 1: Correct
+→ Answer 2: Wrong
+→ Answer 3: Wrong
+```
+
+---
+
+### 📊 Final Result
+
+```
+Hallucination: YES
+Reason: Model gave incorrect factual answers
+Consistency: LOW (different answers)
+```
+
+---
+
+### 💡 What this means
+
+Even though the model sounds confident, it:
+
+- ❌ Does not reliably know the correct fact
+- ❌ Changes answers depending on phrasing
+- ❌ Cannot be trusted for factual queries
+
+---
+
+## 🎯 Why this project is useful
+
+Instead of just asking:
+
+> "Is the model accurate?"
+
+We answer:
+
+- Where does the model fail?
+- How often does it hallucinate?
+- Is it stable across different question forms?
+- Can we trust it for real-world use?
+
+---
+
+👉 This makes the system useful for:
+- AI evaluation
+- Model comparison
+- Research and production readiness
 
 ---
 
