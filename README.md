@@ -186,16 +186,6 @@ It tells you:
 
 ---
 
-## 👥 Collaboration (Private Repo)
-
-To give access to teammates:
-
-1. Go to your GitHub repo
-2. Click **Settings → Collaborators**
-3. Add their GitHub usernames
-
----
-
 ## 🚀 Summary
 
 This project helps you:
