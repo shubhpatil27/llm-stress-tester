@@ -100,11 +100,138 @@ We answer:
 
 ---
 
-## 🧠 System Flow
+## 🧠 System Flow (How It Works)
 
 ```
-RAG → Question Generation → Model Answer → Analysis → Report
+           ┌──────────────────────────────┐
+           │   RAG Dataset (Knowledge)    │
+           │  (JSONL domain data)         │
+           └──────────────┬───────────────┘
+                          │
+                          ▼
+           ┌──────────────────────────────┐
+           │  Question Generator (Mistral)│
+           │  Creates domain-based        │
+           │  questions from context      │
+           └──────────────┬───────────────┘
+                          │
+                          ▼
+           ┌──────────────────────────────┐
+           │  Test Model (Llama3)         │
+           │  Answers WITHOUT context     │
+           │  (simulates real usage)      │
+           └──────────────┬───────────────┘
+                          │
+                          ▼
+           ┌──────────────────────────────┐
+           │  Analyzer                    │
+           │                              │
+           │  ✓ RAG Verification          │
+           │  ✓ Wikipedia Check           │
+           │  ✓ Consistency Check         │
+           │  ✓ Evasion Detection         │
+           └──────────────┬───────────────┘
+                          │
+                          ▼
+           ┌──────────────────────────────┐
+           │  Final Decision              │
+           │                              │
+           │  Hallucination? YES / NO     │
+           │  Breakdown:                 │
+           │   - Hallucination           │
+           │   - Inconsistency           │
+           │   - Evasion                 │
+           └──────────────┬───────────────┘
+                          │
+                          ▼
+           ┌──────────────────────────────┐
+           │  Bandit Learner              │
+           │  Focuses on weak areas       │
+           └──────────────────────────────┘
 ```
+
+---
+
+## 🔍 Step-by-Step Explanation
+
+### 1. RAG (Knowledge Base)
+- The system loads domain-specific knowledge (education, medical, etc.)
+- Stored in `.jsonl` file
+- Acts as **ground truth**
+
+---
+
+### 2. Question Generation (Mistral)
+- Generates questions based on RAG context
+- Ensures questions are:
+  - factual
+  - misleading
+  - reasoning
+  - ambiguous
+
+---
+
+### 3. Model Under Test (Llama3)
+- Answers WITHOUT seeing the context
+- This simulates **real-world usage**
+- Forces the model to rely on its internal knowledge
+
+---
+
+### 4. Analysis Engine
+
+Each answer is evaluated using:
+
+#### ✅ RAG Check
+- Is the answer correct according to the passage?
+
+#### 🌐 Wikipedia Check
+- External verification (for factual questions)
+
+#### 🔁 Consistency Check
+- Same question → multiple variations  
+- Do answers match?
+
+#### 🚨 Evasion Detection
+- Did the model avoid answering?
+
+---
+
+### 5. Final Classification
+
+Each question is classified into:
+
+- **Hallucination** → wrong fact
+- **Inconsistency** → unstable answers
+- **Evasion** → avoided answering
+
+---
+
+### 6. Bandit Learning (Smart Testing)
+
+- The system learns which category causes more failures
+- Focuses more on those areas over time
+
+---
+
+## 🎯 Key Idea
+
+This system doesn’t just test:
+
+> "Is the model correct?"
+
+It tests:
+
+- Can the model be trusted?
+- Does it stay consistent?
+- Does it hallucinate under pressure?
+- Does it avoid answering?
+
+---
+
+## 🧠 One-Line Summary
+
+> This project simulates real-world questioning to detect when an LLM gives confident but incorrect answers — and explains why.
 
 ---
 
