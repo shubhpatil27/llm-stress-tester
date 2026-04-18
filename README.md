@@ -2,11 +2,70 @@
 
 ## 📌 Overview
 
-This project presents a **robust, adaptive stress-testing framework for Retrieval-Augmented Generation (RAG) systems and Large Language Models (LLMs)**. It is designed to systematically uncover weaknesses such as **hallucinations, evasive responses, and inconsistencies** using a combination of **adversarial prompt generation** and an **Upper Confidence Bound (UCB) multi-armed bandit algorithm**.
+This project presents a **robust, adaptive stress-testing framework for Retrieval-Augmented Generation (RAG) systems and Large Language Models (LLMs)**. It is designed to systematically uncover weaknesses such as **hallucinations, evasive responses, and inconsistencies** using  an **Upper Confidence Bound (UCB) multi-armed bandit algorithm**.
 
-Unlike static evaluation pipelines, this system **dynamically learns which types of prompts expose the model’s weaknesses most effectively**, making it highly efficient and scalable for real-world evaluation scenarios.
 
 ---
+## 🤖 Model Architecture
+
+This system uses a **multi-model setup** to simulate realistic LLM usage and evaluation.
+
+### 🔹 Models Used
+
+| Role | Model | Purpose |
+|------|------|--------|
+| 🧠 Test Model | `llama3.1` | The model being evaluated for reliability |
+| ✍️ Generator Model | `mistral` | Generates diverse and adversarial questions |
+
+---
+
+### 🔄 How It Works
+
+1. **RAG Context Selection**
+   - A knowledge passage is selected from the dataset
+
+2. **Question Generation (Agent Model)**
+   - `mistral` generates multiple types of questions:
+     - factual
+     - misleading
+     - reasoning
+     - ambiguous
+
+3. **Model Under Test**
+   - `llama3.1` answers the question **without seeing the context**
+   - This simulates real-world usage
+
+4. **Multi-Response Sampling**
+   - The same question is asked multiple times
+   - Used to detect inconsistency
+
+5. **Analysis Engine**
+   - Answers are evaluated using:
+     - RAG ground truth
+     - consistency checks
+     - evasion detection
+     - optional Wikipedia verification
+
+---
+
+### 🧠 Key Design Principle
+
+> The model being tested (`llama3.1`) does **not** have access to the ground truth context.
+
+This ensures:
+- realistic evaluation
+- no information leakage
+- true measurement of model reliability
+
+---
+
+### 🎯 Why Two Models?
+
+- Separates **question generation** from **evaluation**
+- Prevents bias
+- Enables adversarial testing
+
+> This design mimics real-world scenarios where LLMs must answer questions without perfect context.
 
 ## 🎯 Objectives
 
