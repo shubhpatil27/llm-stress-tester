@@ -161,7 +161,7 @@ def main():
     Path(REPORT_FILE).unlink(missing_ok=True)
 
     for step in range(1, NUM_STEPS + 1):
-        print(f"\n{'─'*60}")
+        print("\n" + "-" * 60)
         print(f"Step {step}/{NUM_STEPS}")
 
         domain, category = bandit.select()
