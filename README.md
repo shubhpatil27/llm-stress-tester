@@ -60,6 +60,36 @@ This enables faster and smarter discovery of weaknesses.
 
 ---
 
+## 📊 Dashboard (Interactive UI)
+
+![Dashboard](./assets/dashboard.png)
+
+### Features:
+- Real-time evaluation
+- Failure tracking (H / I / E)
+- Adaptive testing behavior
+- Clean visualization for analysis
+  
+> ⚠️ Note:
+> In early iterations (e.g., 30–50 test cases), certain failure types like 
+> **inconsistencies** and **evasions** may not appear frequently. 
+> This is expected behavior due to the **adaptive UCB algorithm**, which initially 
+> focuses on the most easily exploitable weakness (e.g., hallucinations) before 
+> exploring other failure modes.
+
+---
+
+## 📈 Terminal Evaluation Report
+
+![Report](./assets/terminal_report.png)
+
+**Insights:**  
+The model shows a **20% hallucination rate**, with **inconsistencies (23.3%)** as the most frequent failure mode, indicating issues with logical coherence.  
+The **factual category (40%)** is the weakest, highlighting challenges in knowledge-grounded responses.  
+
+> These results are driven by the **adaptive UCB testing strategy**, which prioritizes failure-prone areas, making the evaluation focused and realistic rather than uniform.
+---
+
 ## ⚙️ System Architecture
 
 ```
@@ -161,31 +191,6 @@ python main.py
 
 ---
 
-## 🧪 Example Run
-
-### Command
-
-```
-python main.py
-```
-
-### Sample Output (Terminal)
-
-```
-Iteration: 30
-Hallucinations: 5
-Inconsistencies: 2
-Evasions: 1
-Most Exploited Arm: hallucination_prompts
-```
-
-### Explanation
-
-* The system ran 30 adaptive test cases
-* UCB prioritized hallucination-heavy prompts
-* Failures were automatically detected and logged
-
----
 
 ## 📊 Output & Visualization
 
@@ -229,13 +234,7 @@ It continuously learns where the model fails and focuses testing there.
 * Multi-model benchmarking
 * Vector DB integration
 
----
 
-## 📸 Results
-
-(Add your screenshots here)
-
----
 
 ## 🧾 Conclusion
 
